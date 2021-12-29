@@ -1,0 +1,7 @@
+.idea/
+*.terraform/
+*.build/
+*vendor/
+*.tfstate
+*.lock.hcl
+*.backup

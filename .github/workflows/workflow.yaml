@@ -1,0 +1,35 @@
+name: tf-starter tests suite
+on: [push]
+jobs:
+  tf-starter-tests-suite:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Cache tools
+        id: cache-tools
+        uses: actions/cache@v2
+        with:
+          path: tools
+          key: tools
+
+      - name: Terraform lint
+        run: terraform fmt -check -recursive
+
+      - name: Download Tools
+        if: steps.cache-tools.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p tools
+          curl -sSL https://github.com/phpstan/phpstan/releases/download/1.3.3/phpstan.phar -o tools/phpstan
+          chmod a+x tools/phpstan
+          curl -L https://cs.symfony.com/download/php-cs-fixer-v3.phar -o tools/php-cs-fixer
+          chmod a+x tools/php-cs-fixer
+
+      - name: PHPStan analyze
+        run: |
+          tools/phpstan analyze --level=max application
+
+      - name: CS Check
+        run: |
+          tools/php-cs-fixer fix application --rules=@PhpCsFixer,@PHP81Migration --diff --no-interaction --dry-run
