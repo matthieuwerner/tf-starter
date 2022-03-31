@@ -58,11 +58,11 @@ cs_fix:
 
 ## Provider: AWS - Lambda
 lambda-deploy: ## Deploy application in a AWS Lambda environment .
-	terraform -chdir=$(TERRAFORM_FOLDER)/aws init -var-file=variables.tfvars -reconfigure -upgrade
-	terraform -chdir=$(TERRAFORM_FOLDER)/aws apply -var-file=variables.tfvars
+	terraform -chdir=$(TERRAFORM_FOLDER)/aws-lambda init -var-file=variables.tfvars -reconfigure -upgrade
+	terraform -chdir=$(TERRAFORM_FOLDER)/aws-lambda apply -var-file=variables.tfvars
 
 lambda-get-url: ## Get URL of the Lambda.
-	terraform -chdir=$(TERRAFORM_FOLDER)/aws output -raw base_url
+	terraform -chdir=$(TERRAFORM_FOLDER)/aws-lambda output -raw base_url
 
 lambda-show-bucket: ## Show the Lambda bucket content.
 	aws s3 ls $(terraform output -raw lambda_bucket_name)
