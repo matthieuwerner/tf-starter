@@ -1,0 +1,42 @@
+
+# Default workspace (usually used for local environment)
+default:
+  provider: docker
+#  provider:
+#    name: docker
+#    configuration:
+#      sock-path: ...
+  domain: tf-starter.local
+  modules: &modules
+    function-php:
+      name: hello
+      application-path: ../application
+      document-root: public
+      handler: public/index.php
+      php-version: 8.1
+      subdomain: www
+
+# Dev workspace (use `terraform workspace select dev` to switch to this workspace)
+dev:
+  provider: aws
+  modules: *modules
+
+# Prod workspace (use `terraform workspace select prod` to switch to this workspace)
+prod:
+  provider: aws
+  modules: *modules
+
+
+
+
+
+#    - table
+#    - s3
+#  configuration:
+#    function-php:
+#      truc: 1
+#      bidule: 2
+#    lambda: ~
+#    s3:
+#      name: "coucou"
+#      secured: true

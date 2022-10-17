@@ -1,0 +1,5 @@
+#!/bin/sh
+
+PHP_VERSION=$(php -r 'printf("%s.%s", PHP_MAJOR_VERSION, PHP_MINOR_VERSION);')
+
+exec /usr/sbin/php-fpm$PHP_VERSION -y /etc/php/$PHP_VERSION/fpm/php-fpm.conf -O
